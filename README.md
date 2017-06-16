@@ -28,7 +28,7 @@ To be able to run the above code some external libraries are needed:
 * Google Protocol Buffers (should already be installed with the SGX SDK package) otherwise install ```libprotobuf-dev```, ```libprotobuf-c0-dev``` and ```protobuf-compiler```
 * ```libboost-thread-dev```, ```libboost-system-dev```
 * ```curl```, ```libcurl4-openssl-dev```
-* ```libssl```
+* ```libssl-dev```
 * ```liblog4cpp5-dev```
 
 
