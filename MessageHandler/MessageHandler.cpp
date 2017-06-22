@@ -2,8 +2,8 @@
 
 using namespace util;
 
-MessageHandler::MessageHandler(int port) {
-    this->nm = NetworkManagerServer::getInstance(port);
+MessageHandler::MessageHandler() {
+    this->nm = NetworkManagerClient::getInstance(Settings::rh_port, Settings::rh_host);
 }
 
 MessageHandler::~MessageHandler() {
@@ -378,6 +378,12 @@ string MessageHandler::handleVerification() {
     return this->generateMSG0();
 }
 
+string MessageHandler::getSecret(){
+    Messages::InitialMessage msg;
+    msg.set_type(RA_GET_SECRET);
+
+    return nm->serialize(msg);
+}
 
 string MessageHandler::createInitMsg(int type, string msg) {
     Messages::SecretMessage init_msg;
@@ -392,6 +398,7 @@ vector<string> MessageHandler::incomingHandler(string v, int type) {
     vector<string> res;
     string s;
     bool ret;
+    if(!v.empty()){
 
     switch (type) {
     case RA_VERIFICATION: {	//Verification request
@@ -436,7 +443,11 @@ vector<string> MessageHandler::incomingHandler(string v, int type) {
     }
 
     res.push_back(s);
-
+    }
+    else{
+        res.push_back(to_string(RA_GET_SECRET));
+        res.push_back(this->getSecret());
+    }
     return res;
 }
 
