@@ -27,12 +27,14 @@ void WebService::init() {
 
     if (curl) {
         Log("Curl initialized successfully");
-//		curl_easy_setopt( curl, CURLOPT_VERBOSE, 1L );
+        Log("setting cert...");
+        Log(Settings::ias_crt);
+		curl_easy_setopt( curl, CURLOPT_VERBOSE, 1L );
         curl_easy_setopt( curl, CURLOPT_SSLCERTTYPE, "PEM");
         curl_easy_setopt( curl, CURLOPT_SSLCERT, Settings::ias_crt);
         curl_easy_setopt( curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
         curl_easy_setopt( curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-        curl_easy_setopt( curl, CURLOPT_NOPROGRESS, 1L);
+        curl_easy_setopt( curl, CURLOPT_SSLCERTPASSWD, "1021");
     } else
         Log("Curl init error", log::error);
 }
@@ -174,7 +176,7 @@ bool WebService::getSigRL(string gid, string *sigrl) {
 
     ias_response_container_t ias_response_container;
     ias_response_header_t response_header;
-
+    //gid = "00000d6e";
     string url = Settings::ias_url + "sigrl/" + gid;
 
     this->sendToIAS(url, IAS::sigrl, "", NULL, &ias_response_container, &response_header);
