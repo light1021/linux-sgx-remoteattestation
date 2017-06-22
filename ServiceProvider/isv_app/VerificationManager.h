@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #include "ServiceProvider.h"
-#include "NetworkManagerClient.h"
+#include "NetworkManagerServer.h"
 #include "LogBase.h"
 #include "Messages.pb.h"
 #include "WebService.h"
@@ -34,7 +34,7 @@ private:
 
 private:
     static VerificationManager* instance;
-    NetworkManagerClient *nm = NULL;
+    NetworkManagerServer *nm = NULL;
     ServiceProvider *sp = NULL;
     WebService *ws = NULL;
 };
