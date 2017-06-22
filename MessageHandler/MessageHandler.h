@@ -9,7 +9,7 @@
 #include <iomanip>
 
 #include "Enclave.h"
-#include "NetworkManagerServer.h"
+#include "NetworkManagerClient.h"
 #include "Messages.pb.h"
 #include "UtilityFunctions.h"
 #include "remote_attestation_result.h"
@@ -22,7 +22,7 @@ using namespace util;
 class MessageHandler {
 
 public:
-    MessageHandler(int port = Settings::rh_port);
+    MessageHandler();
     virtual ~MessageHandler();
 
     sgx_ra_msg3_t* getMSG3();
@@ -44,19 +44,18 @@ private:
     string handleVerification();
     string generateMSG0();
     string createInitMsg(int type, string msg);
+    string getSecret();
 
 protected:
     Enclave *enclave = NULL;
 
 private:
     int busy_retry_time = 4;
-    NetworkManagerServer *nm = NULL;
+    NetworkManagerClient *nm = NULL;
 
 };
 
 #endif
-
-
 
 
 
