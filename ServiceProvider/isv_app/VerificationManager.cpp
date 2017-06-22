@@ -9,7 +9,7 @@ using namespace std;
 VerificationManager* VerificationManager::instance = NULL;
 
 VerificationManager::VerificationManager() {
-    this->nm = NetworkManagerClient::getInstance(Settings::rh_port, Settings::rh_host);
+    this->nm = NetworkManagerServer::getInstance(Settings::rh_port);
     this->ws = WebService::getInstance();
     this->ws->init();
     this->sp = new ServiceProvider(this->ws);
@@ -128,7 +128,7 @@ string VerificationManager::createInitMsg(int type, string msg) {
 vector<string> VerificationManager::incomingHandler(string v, int type) {
     vector<string> res;
 
-    if (!v.empty()) {
+//    if (!v.empty()) {
         string s;
         bool ret;
 
@@ -170,16 +170,22 @@ vector<string> VerificationManager::incomingHandler(string v, int type) {
             }
         }
         break;
+        case RA_GET_SECRET: {
+
+            res.push_back(to_string(RA_VERIFICATION));
+            s = (this->prepareVerificationRequest());
+        }
+        break;
         default:
             Log("Unknown type: %d", type, log::error);
             break;
         }
 
         res.push_back(s);
-    } else { 	//after handshake
-        res.push_back(to_string(RA_VERIFICATION));
-        res.push_back(this->prepareVerificationRequest());
-    }
+//    } else { 	//after handshake
+//        res.push_back(to_string(RA_VERIFICATION));
+//        res.push_back(this->prepareVerificationRequest());
+//    }
 
     return res;
 }
