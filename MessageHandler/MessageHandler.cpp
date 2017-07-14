@@ -332,7 +332,7 @@ string MessageHandler::handleAttestationResult(Messages::AttestationMessage msg)
             Log("Error, attestation result message secret using SK based AESGCM failed", log::error);
             print_error_message(status);
         } else {
-            Log("Send attestation okay");
+            Log("Verify attestation okay");
 
             Messages::InitialMessage msg;
             msg.set_type(RA_APP_ATT_OK);
